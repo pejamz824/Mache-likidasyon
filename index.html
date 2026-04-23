@@ -797,7 +797,7 @@
     // Komisyon
     const comm = p.commission || Math.round(p.price * 0.03);
     const commDiv = document.getElementById('det-commission');
-    commDiv.style.display = 'block';
+    commDiv.style.display = 'block'; commDiv.style.cursor='pointer'; commDiv.onclick=()=>openModal('pay-modal');
     commDiv.textContent = `💸 Komisyon platfòm (3%): ${comm}g — peye apre vant`;
     // Featured button pou machann pwòp pwodwi
     const featBtn = document.getElementById('det-featured-btn');
