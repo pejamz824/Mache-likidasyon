@@ -970,5 +970,13 @@
     }
   });
 </script>
+  <script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import{getFirestore}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyCJqrx2Ms5kpOREq0Y7eat",authDomain:"mache-likidasyon.firebaseapp.com",projectId:"mache-likidasyon",storageBucket:"mache-likidasyon.firebasestorage.app",messagingSenderId:"279618275942",appId:"1:279618275942:web:b52c8b4b9"};
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+window.db=db;
+</script>
 </body>
 </html>
