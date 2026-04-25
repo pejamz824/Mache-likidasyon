@@ -381,6 +381,7 @@
     <div class="modal-btns" style="margin-top:16px;">
       <button class="btn-cancel" onclick="closeModal('profile')">Femen</button>
       <button class="btn-save" id="prof-edit-btn" style="display:none" onclick="openEditVendorProfile()">&#9999;&#65039; Modifye Pwofil</button>
+      <button id="prof-clean-btn" style="display:none;margin-top:8px;width:100%;padding:12px;border-radius:10px;border:none;background:#c0392b;color:white;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" onclick="cleanDefaultData()">&#128465; Efase Done Default yo</button>
     </div>
   </div>
 </div>
@@ -801,6 +802,7 @@ function refreshUI(){
     document.getElementById('prof-badge').innerHTML=bh;
     let det='<div class="info-row"><span class="info-label">Username</span><span class="info-value">@'+currentUser.username+'</span></div>';
     if(currentUser.role==='machann'&&currentUser.vendorId){const v=allVendors.find(x=>x.id===currentUser.vendorId);if(v){det+='<div class="info-row"><span class="info-label">Boutik</span><span class="info-value">'+(v.name||'—')+'</span></div><div class="info-row"><span class="info-label">Espesyalite</span><span class="info-value">'+(v.specialty||'—')+'</span></div><div class="info-row"><span class="info-label">Telefon</span><span class="info-value">'+(v.phone||'—')+'</span></div><div class="info-row"><span class="info-label">Zon</span><span class="info-value">'+(v.location||'—')+'</span></div>';}document.getElementById('prof-edit-btn').style.display='block';}else{document.getElementById('prof-edit-btn').style.display='none';}
+    const pcb=document.getElementById('prof-clean-btn');if(pcb)pcb.style.display=currentUser.role==='admin'?'block':'none';
     document.getElementById('prof-details').innerHTML=det;
   }else{
     bar.classList.add('hidden');banner.classList.remove('hidden');vpBar.classList.add('hidden');
