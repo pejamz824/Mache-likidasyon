@@ -314,6 +314,7 @@
   <div class="section-title">&#128101; Repertwa Machann yo</div>
   <div class="vendor-list" id="vend-list"><div style="text-align:center;padding:30px;color:#aaa;">Ap chaje...</div></div>
   <button class="add-btn" id="add-vend-btn" style="display:none" onclick="openModal('vendor')">&#10133; Ajoute Machann (Admin)</button>
+  <button class="add-btn" id="clean-btn" style="display:none;background:#c0392b;margin-top:8px;" onclick="cleanDefaultData()">&#128465; Efase Done Default yo</button>
   <div style="height:20px"></div>
 </div>
 
@@ -740,6 +741,26 @@ window.saveProduct=async function(){
   ['p-name','p-price'].forEach(id=>document.getElementById(id).value='');productImgData='';document.getElementById('p-img-preview').style.display='none';document.getElementById('p-img-input').value='';document.getElementById('p-upload-icon').textContent='📷';document.getElementById('p-upload-text').textContent='Klike pou chwazi foto';
 };
 
+window.cleanDefaultData=async function(){
+  if(!currentUser||currentUser.role!=='admin'){toast('Admin sèlman ka fè sa');return;}
+  if(!confirm('Efase TOUT machann ak pwodui default yo?'))return;
+  const {deleteDoc}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  // Delete default vendors (those without a real username/vendorId linked to a user)
+  const defaultNames=['Paul Estimé','Claudette Simon','Jean Robert','Marie Pierre'];
+  for(const v of allVendors){
+    if(defaultNames.includes(v.name)&&!v.username){
+      await deleteDoc(doc(db,'vendors',v.id));
+    }
+  }
+  // Delete default products (vendor='Admin')
+  for(const p of allProducts){
+    if(p.vendor==='Admin'){
+      await deleteDoc(doc(db,'products',p.id));
+    }
+  }
+  toast('✅ Done default yo efase!');
+};
+
 window.saveVendor=async function(){
   const name=document.getElementById('v-name').value.trim();const spec=document.getElementById('v-spec').value.trim();const phone=document.getElementById('v-phone').value.trim();
   if(!name){toast('Mete non machann nan');return;}
@@ -768,6 +789,7 @@ function refreshUI(){
     // Add buttons
     const canAdd=currentUser.role==='machann'||currentUser.role==='admin'||currentUser.plan==='premium';
     ap.style.display=canAdd?'flex':'none';av.style.display=currentUser.role==='admin'?'flex':'none';
+    const cb=document.getElementById('clean-btn');if(cb)cb.style.display=currentUser.role==='admin'?'flex':'none';
     // Profile
     document.getElementById('prof-avatar').textContent=currentUser.name.charAt(0).toUpperCase();
     document.getElementById('prof-name').textContent=currentUser.name;
