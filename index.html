@@ -914,7 +914,11 @@ async function markInboxRead(){
 
 window.openModal=function(type){
   if(type==='product'){
-    document.getElementById('p-vend').innerHTML=allVendors.map(v=>'<option value="'+v.name+'">'+v.name+'</option>').join('');
+    // Show all vendors (approved + pending) for product selection
+    const vendorOptions=allVendors.length>0
+      ? allVendors.map(v=>'<option value="'+v.name+'">'+v.name+'</option>').join('')
+      : '<option value="Admin">Admin</option>';
+    document.getElementById('p-vend').innerHTML=vendorOptions;
     if(currentUser&&currentUser.role==='machann'&&currentUser.vendorId){const v=allVendors.find(x=>x.id===currentUser.vendorId);if(v){const opts=document.getElementById('p-vend').options;for(let i=0;i<opts.length;i++){if(opts[i].value===v.name){opts[i].selected=true;break;}}}}
   }
   document.getElementById('modal-'+type).classList.add('open');
